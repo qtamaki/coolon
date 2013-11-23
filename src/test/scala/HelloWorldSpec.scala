@@ -1,5 +1,3 @@
-package jp.applicative.coolon
-
 import org.scalatest.FunSpec
 
 class HelloWorldSpec extends FunSpec {

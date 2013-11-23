@@ -1,4 +1,3 @@
-package jp.applicative.coolon
 
 object HelloWorld {
   def main(args: Array[String]) {

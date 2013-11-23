@@ -6,3 +6,4 @@ project/project/target
 .cache
 .settings
 
+/bin
