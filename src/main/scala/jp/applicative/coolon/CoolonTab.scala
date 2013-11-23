@@ -13,7 +13,7 @@ import io.netty.handler.codec.Delimiters
 import io.netty.handler.codec.string.StringDecoder
 import io.netty.handler.codec.string.StringEncoder
 
-class CoolonTab(val host: String, val port: Int, val firstMessageSize: Int) {
+class CoolonTab(val host: String, val port: Int) {
 
    def run():Unit = {
         // Configure the client.
@@ -33,7 +33,7 @@ class CoolonTab(val host: String, val port: Int, val firstMessageSize: Int) {
 			        ch.pipeline.addLast("encoder", new StringEncoder());
 			
 			        // and then business logic.
-			        ch.pipeline.addLast("handler", new CoolonClientHandler(firstMessageSize));                 
+			        ch.pipeline.addLast("handler", new CoolonClientHandler());                 
                  }
              });
 
@@ -41,9 +41,9 @@ class CoolonTab(val host: String, val port: Int, val firstMessageSize: Int) {
             val ch = b.connect(host, port).sync().channel();
 
             while(true) {
-              println("> ")
+              print("> ")
               val line = readLine
-              val w = ch.writeAndFlush(line)
+              val w = ch.writeAndFlush(line + "\r\n")
             }
             ch.closeFuture().sync()
         } finally {
@@ -62,18 +62,19 @@ object CoolonTab {
         }
 
 	def main(args: Array[String]): Unit = {
-        // Print usage if no argument is specified.
-        if (args.length < 2 || args.length > 3) {
-            System.err.println(
-                    "Usage: " + classOf[CoolonTab].getSimpleName() +
-                    " <host> <port> [<first message size>]");
-            return;
-        }
-
-        // Parse options.
-        val host = args(0)
-        val port = Integer.parseInt(args(1))
-        new CoolonTab(host, port, firstMessageSize(args)).run();
+//        // Print usage if no argument is specified.
+//        if (args.length < 2 || args.length > 3) {
+//            System.err.println(
+//                    "Usage: " + classOf[CoolonTab].getSimpleName() +
+//                    " <host> <port> [<first message size>]");
+//            return;
+//        }
+//
+//        // Parse options.
+//        val host = args(0)
+//        val port = Integer.parseInt(args(1))
+//        new CoolonTab(host, port, firstMessageSize(args)).run();
+        new CoolonTab("localhost", 8080).run();
   }
   
 }
